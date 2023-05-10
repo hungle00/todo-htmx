@@ -1,0 +1,48 @@
+<section class="phx-hero">
+  <h1>List todos</h1>
+</section>
+
+<section>
+  <div class="todos">
+    <%= for todo <- @todos do %>
+      <div class="todo">
+        <input type="hidden" name="id" value={"todo.id"}/>
+        <span class="note"><%= todo.id %> - <%= todo.note %></span>
+        <button class="icon-button" hx-target="closest div" hx-swap="outerHTML" 
+          hx-delete={"/todos/#{todo.id}"} hx-confirm="Are you sure you want to delete?">❌</button>
+        <button class="icon-button" hx-target="closest div" hx-swap="outerHTML" hx-get={"/todos/#{todo.id}/edit"}>📝</button>
+      </div>
+    <% end %>
+    <hr>
+    <form method="post" action="/todos" class="add-todo">
+      <label style="display: inline">Add note</label>
+      <input type="text" minlength="3" name="note" autofocus/>
+    </form>
+  </div>
+</section>
+
+<style>
+  .todo .note {
+    font-size: 18px;
+    margin-right: 6px;
+  }
+  .todo .icon-button {
+    all: unset;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 2px;
+  }
+
+  .todos form {
+    margin-top: 1rem;
+  }
+
+  .todos input[type="text"] {
+    width: max(60%, 220px);
+  }
+
+  .todos label {
+    display: inline;
+    margin-right: 8px;
+  }
+</style>
