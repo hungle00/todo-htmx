@@ -17,7 +17,7 @@ defmodule TodoHtmx.TodoList do
   end
 
   def get_note_by_id(id, notes) do
-    Enum.find(notes, fn note -> note.id == id end)
+    Enum.find(notes, fn note -> Map.get(note, :id) == id end)
   end
 
   def delete_note(id, notes) do
@@ -25,7 +25,7 @@ defmodule TodoHtmx.TodoList do
   end
 
   defp add_id(notes, note) do
-    id = (notes |> Kernel.length) + 1
-    %{note | id: id}
+    last_note = List.first(notes, %{id: 0})
+    %{note | id: last_note.id + 1}
   end
 end

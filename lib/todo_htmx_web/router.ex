@@ -18,8 +18,7 @@ defmodule TodoHtmxWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/todos", TodoController, :index
-    resources "/todos", TodoController, only: [:index, :show, :edit, :create, :delete]
+    resources "/todos", TodoController
   end
 
   # Other scopes may use custom stacks.

@@ -41,19 +41,19 @@ defmodule TodoHtmx.TodoServer do
 
 	@impl true
 	def handle_cast({:delete_note, id}, notes) do
-	  updated_notes = notes |> Enum.reject(fn note -> Map.get(note, :id) == id end)
+	  updated_notes = TodoList.delete_note(id, notes)
 	  {:noreply, updated_notes}
 	end
 
 	@impl true
 	def handle_cast({:update_note, note}, notes) do
-	  updated_notes = update_in(notes, [Access.filter(& &1.id == note.id)], fn _ -> note end)
+	  updated_notes = TodoList.update_note(note, notes)
 	  {:noreply, updated_notes}
 	end
 
 	@impl true
 	def handle_call({:get_note, id}, _from, notes) do
-	  found_note = notes |> Enum.filter(fn note -> Map.get(note, :id) == id end) # |> List.first
+	  found_note = TodoList.get_note_by_id(id, notes)
 	  {:reply, found_note, notes}
 	end
 
