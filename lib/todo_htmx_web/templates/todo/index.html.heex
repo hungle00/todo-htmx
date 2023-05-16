@@ -2,25 +2,34 @@
   <h1>List todos</h1>
 </section>
 
-<section>
-  <div class="todos">
-    <%= for todo <- @todos do %>
-      <div class="todo">
-        <span class="note"><%= todo.id %> - <%= todo.note %></span>
-        <button class="icon-button" hx-target="closest div" hx-swap="outerHTML" 
-          hx-delete={"/todos/#{todo.id}"} hx-confirm="Are you sure you want to delete?">❌</button>
-        <button class="icon-button" hx-target="closest div" hx-swap="outerHTML" hx-get={"/todos/#{todo.id}/edit"}>📝</button>
-      </div>
-    <% end %>
+<section class="todos-contain">
+  <%= if length(@todos) > 1 do %>
+    <label>Search</label> 
+    <input type="text" name="note" 
+            placeholder="Type To Search"
+            hx-get="/todos"
+            hx-trigger="keyup changed delay:500ms, search"
+            hx-target="#todos"
+            hx-replace="innerHTML" >
     <hr>
-    <form method="post" action="/todos" class="add-todo">
-      <label style="display: inline">Add note</label>
-      <input type="text" minlength="3" name="note" autofocus/>
-    </form>
+  <% end %>
+  <div id="todos">
+    <%= for todo <- @todos do %>
+      <%= render "_todo.html", todo: todo %>
+    <% end %>
   </div>
+  <hr>
+  <form method="post" action="/todos" class="add-todo">
+    <label style="display: inline">Add note</label>
+    <input type="text" minlength="3" name="note" autofocus/>
+  </form>
 </section>
 
 <style>
+  .todo {
+    margin: 4px 0;
+  }
+
   .todo .note {
     font-size: 18px;
     margin-right: 6px;
@@ -32,16 +41,21 @@
     margin-right: 2px;
   }
 
-  .todos form {
+  .todos-contain form {
     margin-top: 1rem;
   }
 
-  .todos input[type="text"] {
+  .todos-contain input[type="text"] {
     width: max(60%, 220px);
   }
 
-  .todos label {
+  .todos-contain label {
     display: inline;
     margin-right: 8px;
+    min-width: 4rem;
+  }
+
+  hr {
+    margin: 2rem 0;
   }
 </style>

@@ -1,0 +1,5 @@
+<div id="todos">
+  <%= for todo <- @todos do %>
+    <%= render "_todo.html", todo: todo %>
+  <% end %>
+</div>

@@ -1,0 +1,6 @@
+<div class="todo">
+  <span class="note"><%= @todo.id %> - <%= @todo.note %></span>
+  <button class="icon-button" hx-target="closest div" hx-swap="outerHTML" 
+      hx-delete={"/todos/#{@todo.id}"} hx-confirm="Are you sure you want to delete?">❌</button>
+  <button class="icon-button" hx-target="closest div" hx-swap="outerHTML" hx-get={"/todos/#{@todo.id}/edit"}>📝</button>
+</div>

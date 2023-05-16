@@ -3,10 +3,15 @@ defmodule TodoHtmxWeb.TodoController do
   alias TodoHtmx.TodoServer
   require Logger
 
-  def index(conn, _params) do
-    todos = TodoServer.all_notes()
-    Logger.info(todos)
-    render(conn, "index.html", todos: todos)
+  def index(conn, params) do
+    todos = TodoServer.all_todos()
+    case Map.fetch(params, "note") do
+      {:ok , note} ->
+        search_todos = TodoServer.search_todo(todos, note)
+        render(conn, "search.html", todos: search_todos)
+      :error -> 
+        render(conn, "index.html", todos: todos)
+    end
   end
 
   def show(conn, %{"id" => id}) do
@@ -17,9 +22,9 @@ defmodule TodoHtmxWeb.TodoController do
   end
 
   def create(conn, params) do
-    note = Map.fetch!(params, "note")
-    TodoServer.all_notes()
-    |> TodoServer.create_note(%{note: note, id: nil})
+    note = Map.get(params, "note")
+    TodoServer.all_todos()
+    |> TodoServer.create_todo(%{note: note, id: nil})
 
     conn
       |> put_flash(:info, "Note created successfully.")
@@ -33,11 +38,11 @@ defmodule TodoHtmxWeb.TodoController do
     render(conn, "edit.html", layout: false, todo: todo)
   end
 
-  def update(conn, %{"id" => id, "content" => content}) do
+  def update(conn, %{"id" => id, "note" => note}) do
     id = String.to_integer(id)
-    note = %{id: id, note: content}
+    todo = %{id: id, note: note}
     Logger.info(note)
-    TodoServer.all_notes() |> TodoServer.update_note(note)
+    TodoServer.all_todos() |> TodoServer.update_todo(todo)
 
     todo = find_todo_by_id(id)
 
@@ -48,22 +53,15 @@ defmodule TodoHtmxWeb.TodoController do
 
   def delete(conn, %{"id" => id}) do
     id = String.to_integer(id)
-    TodoServer.all_notes() 
-    |> TodoServer.delete_note(id)
+    TodoServer.all_todos() |> TodoServer.delete_todo(id)
 
     conn
       |> put_flash(:info, "Note deleted successfully.")
       |> send_resp(201, "")
   end
 
-  defp formatted_todos(todos) do
-    todos 
-    |> Enum.sort_by(& &1.id)
-    |> Enum.map(&"#{&1.id} #{&1.note}")
-  end
-
   defp find_todo_by_id(id) do
-    TodoServer.all_notes() 
-    |> TodoServer.get_note(id)
+    TodoServer.all_todos() 
+    |> TodoServer.get_todo(id)
   end
 end

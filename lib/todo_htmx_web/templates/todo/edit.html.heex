@@ -4,7 +4,7 @@
   <button class="icon-button" disabled>❌</button>
   <button class="icon-button" disabled>📝</button>
   <form hx-patch={"/todos/#{@todo.id}"} hx-target="closest div" hx-swap="outerHTML">
-    <input type="text" name="content" value={"#{@todo.note}"} >
+    <input type="text" name="note" value={"#{@todo.note}"} >
     <button type="submit">Save</button>
     <button hx-get={"/todos/#{@todo.id}"}>Cancel</button>
   </form>
