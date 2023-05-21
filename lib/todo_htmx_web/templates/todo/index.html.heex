@@ -11,14 +11,12 @@
             hx-trigger="keyup changed delay:500ms, search"
             hx-target="#todos"
             hx-replace="innerHTML" >
-    <hr>
   <% end %>
   <div id="todos">
     <%= for todo <- @todos do %>
       <%= render "_todo.html", todo: todo %>
     <% end %>
   </div>
-  <hr>
   <form method="post" action="/todos" class="add-todo">
     <label style="display: inline">Add note</label>
     <input type="text" minlength="3" name="note" autofocus/>
@@ -26,23 +24,38 @@
 </section>
 
 <style>
+  @media only screen and (min-width: 420px) {
+    .todos-contain {
+      margin-left: 2rem;
+    }
+    .todo {
+      padding-left: 1.5rem;
+    }
+  }
+
   .todo {
-    margin: 4px 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 0.1rem solid #f4f5f6;
+  }
+
+  .todo:first-child {
+    margin-top: 1rem;
   }
 
   .todo .note {
     font-size: 18px;
-    margin-right: 6px;
+    margin-left: 4px;
   }
   .todo .icon-button {
     all: unset;
     cursor: pointer;
     font-size: 16px;
-    margin-right: 2px;
+    margin-right: 0 2px;
   }
 
-  .todos-contain form {
-    margin-top: 1rem;
+  .add-todo {
+    margin-top: 2rem;
   }
 
   .todos-contain input[type="text"] {
@@ -55,7 +68,12 @@
     min-width: 4rem;
   }
 
-  hr {
-    margin: 2rem 0;
+  .update-todo {
+    margin: 1rem 0;
+  }
+
+  .htmx-swapping {
+    opacity: 0;
+    transition: opacity 1s ease-out;
   }
 </style>

@@ -1,5 +1,23 @@
 <main class="container">
-  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+  <%= unless is_nil(get_flash(@conn, :info)) do %>
+    <p class="alert alert-info" role="alert">
+      <span><%= get_flash(@conn, :info) %></span>
+      <span onclick="this.parentNode.remove()" style="cursor: pointer;">✖</span>
+    </p>
+  <% end %>
+  <%= unless is_nil(get_flash(@conn, :error)) do %>
+    <p class="alert alert-danger" role="alert">
+      <span><%= get_flash(@conn, :info) %>Hello</span>
+      <span onclick="this.parentNode.remove()" style="cursor: pointer;">✖</span>
+    </p>
+  <% end %>
   <%= @inner_content %>
 </main>
+
+<style type="text/css">
+  .alert {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1.5rem;
+  }
+</style>
