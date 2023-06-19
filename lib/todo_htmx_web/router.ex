@@ -18,6 +18,7 @@ defmodule TodoHtmxWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    put "/completed", TodoController, :bulk_delete
     resources "/todos", TodoController
   end
 

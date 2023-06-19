@@ -1,7 +1,1 @@
-<div class="todo">
-  <input type="hidden" name="id" value={"@todo.id"}/>
-  <button class="icon-button" hx-target="closest div" hx-swap="outerHTML" 
-    hx-delete={"/todos/#{@todo.id}"} hx-confirm="Are you sure you want to delete?">❌</button>
-  <button class="icon-button" hx-target="closest div" hx-swap="outerHTML" hx-get={"/todos/#{@todo.id}/edit"}>📝</button>
-  <span class="note"><%= @todo.note %></span>
-</div>
+<%= render "_todo.html", todo: @todo %>

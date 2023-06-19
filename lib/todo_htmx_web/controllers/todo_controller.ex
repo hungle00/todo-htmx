@@ -8,7 +8,7 @@ defmodule TodoHtmxWeb.TodoController do
     case Map.fetch(params, "note") do
       {:ok , note} ->
         search_todos = TodoServer.search_todo(todos, note)
-        render(conn, "search.html", todos: search_todos)
+        render(conn, "search.html", layout: false, todos: search_todos)
       :error -> 
         render(conn, "index.html", todos: todos)
     end
@@ -58,6 +58,18 @@ defmodule TodoHtmxWeb.TodoController do
     conn
       |> put_flash(:info, "Note deleted successfully.")
       |> send_resp(201, "")
+  end
+
+  def bulk_delete(conn, %{"ids" => ids}) do
+    Enum.map(ids, fn id ->  
+      id = String.to_integer(id)
+      TodoServer.all_todos() |> TodoServer.delete_todo(id)
+    end)
+    todos = TodoServer.all_todos()
+    
+    conn
+      |> put_flash(:info, "Note deleted successfully.")
+      |> render("search.html", layout: false, todos: todos)
   end
 
   defp find_todo_by_id(id) do

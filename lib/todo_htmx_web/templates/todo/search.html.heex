@@ -1,5 +1,8 @@
-<div id="todos" >
+<form id="checked-todos">
   <%= for todo <- @todos do %>
     <%= render "_todo.html", todo: todo %>
   <% end %>
-</div>
+</form>
+<form method="post" action="/todos" class="add-todo">
+  <input type="text" minlength="3" name="note" placeholder="➕  Add todo ..." />
+</form>

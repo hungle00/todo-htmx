@@ -123,3 +123,25 @@
   display: none;
 }
 
+.flex {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.todo .icon-button {
+  all: unset;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 2px;
+}
+
+.a-button {
+  all: unset;
+  cursor: pointer;
+  color: #0069d9;
+  text-decoration: underline;
+  margin: 0 2px;
+}

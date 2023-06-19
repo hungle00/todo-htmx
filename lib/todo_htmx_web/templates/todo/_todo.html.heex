@@ -1,6 +1,12 @@
-<div class="todo">
-  <button class="icon-button" hx-target="closest div" hx-swap="outerHTML swap:1s" 
+<div id={"todo_#{@todo.id}"} class="todo flex space-between">
+  <div>
+    <input type="checkbox" name="ids[]" value={"#{@todo.id}"}>
+    <span class="note"><%= @todo.note %></span>
+  </div>
+  <div>
+    <button class="icon-button" hx-target="closest .todo" hx-swap="outerHTML swap:1s" 
       hx-delete={"/todos/#{@todo.id}"} hx-confirm="Are you sure you want to delete?">❌</button>
-  <button class="icon-button" hx-target="closest div" hx-swap="outerHTML" hx-get={"/todos/#{@todo.id}/edit"}>📝</button>
-  <span class="note"><%= @todo.note %></span>
+    <button class="icon-button" hx-target="closest .todo" hx-swap="outerHTML" 
+      hx-get={"/todos/#{@todo.id}/edit"}>📝</button>
+  </div>
 </div>

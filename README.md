@@ -1,8 +1,16 @@
 # TodoHtmx
 
-> Simple todo web app with Phoenix and Htmx
+Simple todo web app with Phoenix and Htmx
 
 View more about Htmx https://htmx.org/docs/
+
+## Feature
+- Inline editing row
+- Smooth delete row
+- Bulk updating multiple rows
+- Live search without Ajax
+
+## Usage
 
 To start your Phoenix server:
 
@@ -11,4 +19,3 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).

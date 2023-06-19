@@ -4,23 +4,28 @@
 
 <section class="todos-contain">
   <%= if length(@todos) > 1 do %>
-    <label>Search</label> 
-    <input type="text" name="note" 
-            placeholder="Type To Search"
-            hx-get="/todos"
-            hx-trigger="keyup changed delay:500ms, search"
-            hx-target="#todos"
-            hx-replace="innerHTML" >
+    <div class="flex space-between">
+      <input type="text" name="note" class="inline-input"
+        placeholder="🔍  Type To Search"
+        hx-get="/todos"
+        hx-trigger="keyup changed delay:500ms, search"
+        hx-target="#todos"
+        hx-replace="innerHTML" >
+      <div hx-include="#checked-todos" hx-target="#todos" class="bulk-completed"> 
+        <a hx-put="/completed">Mark completed</a>
+      </div>
+    </div>
   <% end %>
   <div id="todos">
-    <%= for todo <- @todos do %>
-      <%= render "_todo.html", todo: todo %>
-    <% end %>
+    <form id="checked-todos">
+      <%= for todo <- @todos do %>
+        <%= render "_todo.html", todo: todo %>
+      <% end %>
+    </form>
+    <form method="post" action="/todos" class="add-todo">
+      <input type="text" minlength="3" name="note" autofocus placeholder="➕  Add todo ..." />
+    </form>
   </div>
-  <form method="post" action="/todos" class="add-todo">
-    <label style="display: inline">Add note</label>
-    <input type="text" minlength="3" name="note" autofocus/>
-  </form>
 </section>
 
 <style>
@@ -28,15 +33,12 @@
     .todos-contain {
       margin-left: 2rem;
     }
-    .todo {
-      padding-left: 1.5rem;
-    }
   }
 
   .todo {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 0.1rem solid #f4f5f6;
+    border-bottom: 0.1rem solid #ededed;
   }
 
   .todo:first-child {
@@ -47,18 +49,24 @@
     font-size: 18px;
     margin-left: 4px;
   }
-  .todo .icon-button {
-    all: unset;
-    cursor: pointer;
-    font-size: 16px;
-    margin-right: 0 2px;
-  }
 
   .add-todo {
-    margin-top: 2rem;
+    margin: 0 .5rem;
+  }
+  .add-todo input {
+    border: none;
+    border-bottom: solid 2px #d1d1d1;
+    margin: 0;
+    padding: 1.5rem;
+    font-size: 16px;
+    height: 5rem;
   }
 
-  .todos-contain input[type="text"] {
+  .add-todo input:focus {
+    border-color: #a1a1a1;
+  }
+
+  .todos-contain .inline-input {
     width: max(60%, 220px);
   }
 
@@ -69,11 +77,24 @@
   }
 
   .update-todo {
-    margin: 1rem 0;
+    margin-bottom: 0;
   }
 
   .htmx-swapping {
     opacity: 0;
     transition: opacity 1s ease-out;
+  }
+
+  .bulk-completed {
+    margin-top: 4px;
+  }
+
+  .bulk-completed a {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  #checked-todos {
+    margin-bottom: 0;
   }
 </style>
